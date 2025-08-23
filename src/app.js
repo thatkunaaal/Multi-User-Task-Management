@@ -1,7 +1,8 @@
 const express = require("express");
 require("dotenv").config();
 const { validateSignUpData } = require("../utlis/validate");
-const { connectDB } = require("../config/database");
+const { sequelize,connectDB } = require("../config/database");
+
 
 
 const app = express();
@@ -24,7 +25,15 @@ Tasks:
 app.post("/signup", (req, res) => {
   try {
     validateSignUpData(req);
-    console.log(req.body);
+    // console.log(req.body);
+    const name = req.body.name;
+    const email = req.body.email;
+    const password = req.body.password;
+    connection.query(`INSERT INTO USERS (name,email,password) VALUES (${name},${email},${password})`,(err,results)=>{
+        if(err)
+            throw new Error(err);
+        console.log(results);
+    })
     res
       .status(200)
       .json({ mesage: "Your account has been successfully created!" });
@@ -39,8 +48,8 @@ app.post("/signup", (req, res) => {
 connectDB()
   .then(() => {
     console.log("Successfully connected to DB.");
-    app.listen(process.env.PORT, () => {
-      console.log(`Server has been started at port: ${process.env.PORT}`);
+    app.listen(port, () => {
+      console.log(`Server has been started at port: ${port}`);
     });
   })
   .catch(
