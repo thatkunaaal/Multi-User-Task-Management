@@ -11,6 +11,7 @@ const app = express();
 const port = 3000;
 const saltRounds = 10;
 
+
 // ******************************************Middleware***************************************
 app.use(express.json());
 
@@ -70,7 +71,15 @@ app.post("/login", async (req, res) => {
 
     if (!isPasswordCorrect) throw new Error("Invalid credentials!");
 
-    res.status(200).json({ message: "Login Successful" });
+    console.log(user);
+
+    // Attaching JWT
+    const token = await user.getJWT();
+
+
+    res.status(200)
+    .cookie("token",token,{expires: new Date(Date.now() + 3600000*24)})  //cookies expires in 24hrs.
+    .json({ message: "Login Successful" });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }

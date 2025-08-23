@@ -2,13 +2,23 @@ const { Sequelize, DataTypes, Model } = require("sequelize");
 const { sequelize } = require("../config/database");
 const validator = require("validator");
 const bcrypt = require("bcrypt");
+const jwt = require('jsonwebtoken');
+const JWT_SECRET_KEY = "TaskManager@231"
+
 
 class User extends Model {
 
     // Instance methods
+
   async checkPassword(plainPassword) {
     const hashedPassword = this.password;
     return await bcrypt.compare(plainPassword, hashedPassword);
+  }
+
+  async getJWT(){
+    const user = this;
+    const token =  await jwt.sign({"id" : user.id},JWT_SECRET_KEY,{expiresIn: "1d"});
+    return token;
   }
 }
 
