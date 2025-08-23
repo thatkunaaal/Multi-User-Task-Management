@@ -24,9 +24,15 @@ const validateSignUpData = (req) => {
         throw new Error("Email should be in a valid format");
 
     if(!validator.isStrongPassword(req.body.password))
-        throw new Error("Kindly enter a strong password which contain a special character , a number and whose length should be greater than 6");
+        throw new Error("Kindly enter a strong password which contain a special character, one Uppercase alphabet , a number and whose length should be greater than 6");
 
 };
 
+const validateLoginData = (req) => {
+    // empty email & empty password
+    if(!req.body.email || !req.body.password || !validator.isEmail(req.body.email) || !validator.isStrongPassword(req.body.password))
+        throw new Error("EmailID & password are not valid");
 
-module.exports = {validateSignUpData};
+}
+
+module.exports = {validateSignUpData,validateLoginData};

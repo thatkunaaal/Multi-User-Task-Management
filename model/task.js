@@ -1,5 +1,6 @@
 const { Sequelize, DataTypes, Model } = require("sequelize");
-const sequelize = require("../config/database");
+const {sequelize} = require("../config/database");
+const {User} = require("../model/user");
 
 class Task extends Model {}
 
@@ -22,7 +23,7 @@ Task.init(
       type: DataTypes.INTEGER,
       allowNull: false,
       references: {
-        Model: "User",
+        model: User,
         key: "id",
       },
     },
@@ -42,7 +43,7 @@ Task.init(
   },
   {
     sequelize,
-    Model: 'Task',
+    modelName : 'Task',
     timestamps: true,
     underscored: true,
     indexes: [{ unique: true, fields: ["user_id", "title"] }],
