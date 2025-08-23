@@ -30,6 +30,9 @@ Task.init(
     title: {
       type: DataTypes.STRING,
       allowNull: false,
+      set(value){
+        this.setDataValue("title",value.toLowerCase())
+      }
     },
     description: {
       type: DataTypes.TEXT,
