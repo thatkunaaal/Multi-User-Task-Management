@@ -85,6 +85,16 @@ app.post("/login", async (req, res) => {
   }
 });
 
+app.post("/logout",async (req,res) => {
+    try {
+        res.status(200).clearCookie('token').json({message: "User logged out"});
+    } catch (err) {
+        throw new Error(err);
+    }
+})
+
+
+
 // Connnecting DB before listening to the server. {BEST PRACTISE}
 connectDB()
   .then(() => {
