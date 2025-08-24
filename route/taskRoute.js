@@ -170,13 +170,13 @@ taskRouter.get("/tasks/",userAuth,async (req,res) => {
         let page = parseInt(req.query.page) || 1;
         let limit = parseInt(req.query.limit) || 10;
 
-        limit = (limit > 50) ? 50 : limit;
-        const skip = (page-1)*limit;
-
         if(page<=0 || limit<=0){
             page = 1;
             limit = 10;
         }
+
+        limit = (limit > 50) ? 50 : limit;
+        const skip = (page-1)*limit;
 
         const {count , rows: tasks} = await Task.findAndCountAll({
             where: {
