@@ -11,8 +11,7 @@ const cookieParser = require("cookie-parser");
 
 
 const app = express();
-const port = 3000;
-const saltRounds = 10;
+const port = process.env.PORT;
 
 // ******************************************Middleware***************************************
 app.use(express.json());

@@ -10,7 +10,9 @@ const { userAuth } = require("../middleware/auth");
 const cookieParser = require("cookie-parser");
 const authRouter = express.Router();
 
-authRouter.post("/signup", async (req, res) => {
+const saltRounds = parseInt(process.env.SALT_ROUNDS);
+
+authRouter.post("/users/register", async (req, res) => {
   try {
     // Step-1) Validate & santitising the request body.
     validateSignUpData(req);
